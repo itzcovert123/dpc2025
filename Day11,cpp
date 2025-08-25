@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    vector<string> getPermutations(string str) {
+        vector<string> allPerms;
+        vector<bool> isUsed(str.size(), false);  
+        string current;
+
+        sort(str.begin(), str.end());  // sort so duplicates are next to each other
+        backtrack(str, isUsed, current, allPerms);
+        return allPerms;
+    }
+
+private:
+    void backtrack(string &str, vector<bool> &isUsed, string &current, vector<string> &allPerms) {
+        if (current.size() == str.size()) {  // base case: full permutation built
+            allPerms.push_back(current);
+            return;
+        }
+
+        for (int idx = 0; idx < str.size(); idx++) {
+            if (isUsed[idx]) continue;  
+            if (idx > 0 && str[idx] == str[idx - 1] && !isUsed[idx - 1]) continue;  
+
+            isUsed[idx] = true;
+            current.push_back(str[idx]);
+
+            backtrack(str, isUsed, current, allPerms);
+
+            current.pop_back();  // backtrack
+            isUsed[idx] = false;
+        }
+    }
+};
+
+int main() {
+    string input;
+    cout << "Enter a string: ";
+    cin >> input;
+
+    Solution solver;
+    vector<string> result = solver.getPermutations(input);
+
+    cout << "\nUnique permutations are:\n";
+    for (string &perm : result) {
+        cout << perm << "\n";
+    }
+
+    return 0;
+}
