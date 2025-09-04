@@ -12,7 +12,6 @@ void insertAtBottom(stack<int> &st, int x) {
     st.push(top);
 }
 
-// Function to reverse the stack using recursion
 void reverseStack(stack<int> &st) {
     if(st.empty()) return;
     
